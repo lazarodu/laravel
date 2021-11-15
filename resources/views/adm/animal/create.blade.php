@@ -10,7 +10,7 @@
     <label class="col-2" for="nasc">Nascimento</label>
     <input type="date" name="nascimento" id="nasc" class="col-3" />
     <label class="col-2" for="img">Imagem</label>
-    <input type="file" name="imagem" id="img" class="col-10" />
+    <input type="text" name="imagem" id="img" class="col-10" />
   </div>
   <button type="submit" class="button">Salvar</button>
 </form>
