@@ -9,7 +9,7 @@ class Animal extends Model
 {
   use HasFactory;
 
-  public function adotante()
+  public function vacinacao()
   {
     return $this->hasMany(Vacinacao::class);
   }
