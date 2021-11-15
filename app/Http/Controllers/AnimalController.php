@@ -47,7 +47,7 @@ class AnimalController extends Controller
     $validated = $request->validate([
       'nome' => 'required|max:255',
       'nascimento' => 'required|date',
-      'imagem' => 'required|image'
+      'imagem' => 'required'
     ]);
     if ($validated) {
       $animal = new Animal();
