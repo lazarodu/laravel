@@ -47,7 +47,7 @@ class AnimalController extends Controller
     $validated = $request->validate([
       'nome' => 'required|max:255',
       'nascimento' => 'required|date',
-      // 'imagem' => 'required|image'
+      'imagem' => 'required|image'
     ]);
     if ($validated) {
       $animal = new Animal();
@@ -58,7 +58,7 @@ class AnimalController extends Controller
       // Storage::disk('google')->setVisibility($files[count($files) - 1], 'public');
       // $url = Storage::disk('google')->url($files[count($files) - 1]);
       // $animal->imagem = $url;
-      $animal->nascimento = $request->get('imagem');
+      $animal->imagem = $request->get('imagem');
       $animal->save();
       return redirect('animal');
     }

@@ -29,7 +29,19 @@ class AnimalController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $validated = $request->validate([
+      'nome' => 'required|max:255',
+      'nascimento' => 'required|date',
+      'imagem' => 'required|image'
+    ]);
+    if ($validated) {
+      $animal = new Animal();
+      $animal->nome = $request->get('nome');
+      $animal->nascimento = $request->get('nascimento');
+      $animal->imagem = $request->get('imagem');
+      $animal->save();
+      return response()->json($animal);
+    }
   }
 
   /**
