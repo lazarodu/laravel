@@ -1,0 +1,17 @@
+# get users
+GET http://localhost:8002/api/user
+Content-Type: application/json
+Authorization: Bearer 38kfa2chcStmgr87zSwv3TgwmZs1h6o8Za7CVvkm
+###
+
+# get adotante
+GET http://localhost:8002/api/adotante
+Content-Type: application/json
+Authorization: Bearer 38kfa2chcStmgr87zSwv3TgwmZs1h6o8Za7CVvkm
+###
+
+# get animais
+GET http://localhost:8002/api/animal
+Content-Type: application/json
+Authorization: Bearer 38kfa2chcStmgr87zSwv3TgwmZs1h6o8Za7CVvkm
+###

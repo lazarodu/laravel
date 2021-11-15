@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Initial;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class InicioController extends Controller
@@ -22,5 +23,11 @@ class InicioController extends Controller
             ]
         ];
         return view("initial/inicio", $carousel);
+    }
+
+    public function user() {
+      $user = User::all();
+      print_r($user);
+
     }
 }

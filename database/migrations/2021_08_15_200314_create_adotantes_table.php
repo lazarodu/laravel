@@ -17,7 +17,7 @@ class CreateAdotantesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()
                 ->onDelete('cascade')->onUpdate('cascade');
-            $table->string('documento');
+            $table->string('documento')->unique();
             $table->string('endereco');
             $table->string('numero');
             $table->string('complemento');
