@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Animal;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AnimalController extends Controller
 {
@@ -16,6 +17,12 @@ class AnimalController extends Controller
   public function index()
   {
     $animais = Animal::all();
+    // $files = Storage::disk('google')->allFiles();
+    // print_r($files);
+    // Storage::disk('google')->setVisibility($files[0], 'public');
+    // $visibility = Storage::disk('google')->getVisibility($files[0]);
+    // $url = Storage::disk('google')->url($files[0]);
+    // print_r($url);
     return view('adm/animal', compact('animais'));
   }
 
@@ -40,11 +47,17 @@ class AnimalController extends Controller
     $validated = $request->validate([
       'nome' => 'required|max:255',
       'nascimento' => 'required|date',
+      'imagem' => 'required|image'
     ]);
     if ($validated) {
       $animal = new Animal();
       $animal->nome = $request->get('nome');
       $animal->nascimento = $request->get('nascimento');
+      $imagem = $request->file('imagem')->store('', 'google');
+      $files = Storage::disk('google')->allFiles();
+      Storage::disk('google')->setVisibility($files[count($files) - 1], 'public');
+      $url = Storage::disk('google')->url($files[count($files) - 1]);
+      $animal->imagem = $url;
       $animal->save();
       return redirect('animal');
     }
