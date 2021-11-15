@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Animal;
-use App\Traits\ApiResponse;
+use App\Models\Vacinacao;
 use Illuminate\Http\Request;
 
-class AnimalController extends Controller
+class VacinacaoController extends Controller
 {
-  use ApiResponse;
   /**
    * Display a listing of the resource.
    *
@@ -17,8 +15,6 @@ class AnimalController extends Controller
    */
   public function index()
   {
-    $animais = Animal::all();
-    return $this->success($animais);
   }
 
   /**
@@ -30,15 +26,15 @@ class AnimalController extends Controller
   public function store(Request $request)
   {
     $validated = $request->validate([
+      'animal_id' => 'required|integer|exists:App\Models\Animal,id',
       'nome' => 'required|max:255',
-      'nascimento' => 'required|date',
-      'imagem' => 'required'
+      'data' => 'required|date',
     ]);
     if ($validated) {
-      $animal = new Animal();
+      $animal = new Vacinacao();
+      $animal->animal_id = $request->get('animal_id');
       $animal->nome = $request->get('nome');
-      $animal->nascimento = $request->get('nascimento');
-      $animal->imagem = $request->get('imagem');
+      $animal->data = $request->get('data');
       $animal->save();
       return response()->json($animal);
     }
@@ -53,10 +49,10 @@ class AnimalController extends Controller
   public function show($id)
   {
     try {
-      $animal = Animal::findOrFail($id);
-      return response()->json($animal);
+      $animais = Vacinacao::where('animal_id', $id);
+      return $this->success($animais);
     } catch (\Throwable $th) {
-      return $this->error("Animal não encontrado!!!", 401, $th->getMessage());
+      return $this->error("Facina não encontrada!!!", 401, $th->getMessage());
     }
   }
 
@@ -69,21 +65,22 @@ class AnimalController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $validated = $request->validate([
-      'nome' => 'max:255',
-      'nascimento' => 'date',
-      'castracao' => 'date',
-    ]);
-    if ($validated) {
-      $animal = Animal::findOrFail($id);
-      if ($request->get('nome'))
+    try {
+      $validated = $request->validate([
+        'animal_id' => 'required|integer|exists:App\Models\Animal,id',
+        'nome' => 'required|max:255',
+        'data' => 'required|date',
+      ]);
+      if ($validated) {
+        $animal = Vacinacao::findOrFail($id);
+        $animal->animal_id = $request->get('animal_id');
         $animal->nome = $request->get('nome');
-      if ($request->get('nascimento'))
-        $animal->nascimento = $request->get('nascimento');
-      if ($request->get('castracao'))
-        $animal->castracao = $request->get('castracao');
-      $animal->save();
-      return response()->json($animal);
+        $animal->data = $request->get('data');
+        $animal->save();
+        return response()->json($animal);
+      }
+    } catch (\Throwable $th) {
+      return $this->error("Erro ao alterar a Vacina!!!", 401, $th->getMessage());
     }
   }
 
@@ -96,11 +93,11 @@ class AnimalController extends Controller
   public function destroy($id)
   {
     try {
-      $animal = Animal::findOrFail($id);
-      $animal->delete();
-      return response()->json($animal);
+      $vacina = Vacinacao::findOrFail($id);
+      $vacina->delete();
+      return response()->json($vacina);
     } catch (\Throwable $th) {
-      return $this->error("Erro ao apagar o Animal!!!", 401, $th->getMessage());
+      return $this->error("Erro ao apagar a Vacinacao!!!", 401, $th->getMessage());
     }
   }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnimalsTable extends Migration
+class CreateVacinacaosTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,12 +13,12 @@ class CreateAnimalsTable extends Migration
    */
   public function up()
   {
-    Schema::create('animals', function (Blueprint $table) {
+    Schema::create('vacinacaos', function (Blueprint $table) {
       $table->id();
+      $table->foreignId('animal_id')->constrained()
+        ->onDelete('cascade')->onUpdate('cascade');
       $table->string('nome');
-      $table->date('nascimento');
-      $table->string('imagem');
-      $table->date('castracao')->nullable();
+      $table->date('data');
       $table->timestamps();
     });
   }
@@ -30,6 +30,6 @@ class CreateAnimalsTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('animals');
+    Schema::dropIfExists('vacinacaos');
   }
 }

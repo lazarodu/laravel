@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Animal extends Model
+class Vacinacao extends Model
 {
   use HasFactory;
 
-  public function adotante()
+  public function animal()
   {
-    return $this->hasMany(Vacinacao::class);
+    return $this->belongsTo(Animal::class);
   }
 }
