@@ -53,12 +53,12 @@ class AnimalController extends Controller
       $animal = new Animal();
       $animal->nome = $request->get('nome');
       $animal->nascimento = $request->get('nascimento');
-      // $imagem = $request->file('imagem')->store('', 'google');
-      // $files = Storage::disk('google')->allFiles();
-      // Storage::disk('google')->setVisibility($files[count($files) - 1], 'public');
-      // $url = Storage::disk('google')->url($files[count($files) - 1]);
-      // $animal->imagem = $url;
-      $animal->imagem = $request->get('imagem');
+      $imagem = $request->file('imagem')->store('', 'google');
+      $files = Storage::disk('google')->allFiles();
+      Storage::disk('google')->setVisibility($files[count($files) - 1], 'public');
+      $url = Storage::disk('google')->url($files[count($files) - 1]);
+      $animal->imagem = $url;
+      // $animal->imagem = $request->get('imagem');
       $animal->save();
       return redirect('animal');
     }
