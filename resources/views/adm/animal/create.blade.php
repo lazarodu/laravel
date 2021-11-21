@@ -1,6 +1,13 @@
 @extends('adm.layout')
 
 @section('content')
+@if(count($errors) > 0)
+<ul>
+  @foreach($errors->all() as $error)
+  <li>{{$error}}</li>
+  @endforeach
+</ul>
+@endif
 <form method="POST" action="{{url('animal')}}" enctype="multipart/form-data">
   @csrf
   @method('POST')
@@ -10,7 +17,7 @@
     <label class="col-2" for="nasc">Nascimento</label>
     <input type="date" name="nascimento" id="nasc" class="col-3" />
     <label class="col-2" for="img">Imagem</label>
-    <input type="text" name="imagem" id="img" class="col-10" />
+    <input type="file" name="imagem" id="img" class="col-10" />
   </div>
   <button type="submit" class="button">Salvar</button>
 </form>
