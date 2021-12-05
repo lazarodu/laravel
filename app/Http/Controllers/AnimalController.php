@@ -85,7 +85,7 @@ class AnimalController extends Controller
    */
   public function edit(Animal $animal)
   {
-    //
+    return view('adm/animal/edit', compact('animal'));
   }
 
   /**
@@ -97,7 +97,21 @@ class AnimalController extends Controller
    */
   public function update(Request $request, Animal $animal)
   {
-    //
+    $validated = $request->validate([
+      'nome' => 'required|max:255',
+      'nascimento' => 'required|date',
+      'imagem' => 'required|image'
+    ]);
+    if ($validated) {
+      $animal->nome = $request->get('nome');
+      $animal->nascimento = $request->get('nascimento');
+      $path = $request->file('imagem')->store('', 's3');
+      Storage::disk('s3')->setVisibility($path, 'public');
+      $url = Storage::disk('s3')->url($path);
+      $animal->imagem = $url;
+      $animal->save();
+      return redirect('animal');
+    }
   }
 
   /**
@@ -108,6 +122,7 @@ class AnimalController extends Controller
    */
   public function destroy(Animal $animal)
   {
-    //
+    $animal->delete();
+    return redirect('animal');
   }
 }

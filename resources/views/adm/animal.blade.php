@@ -19,10 +19,18 @@
       <td>{{$animal->nascimento}}</td>
       <td><img src="{{$animal->imagem}}" /></td>
       <td>
-        <button type="button">Editar</button>
+        <button type="button" onclick="window.location.href='{{route('animal.edit',$animal->id)}}'">
+          Editar
+        </button>
       </td>
       <td>
-        <button type="button">Remover</button>
+        <form method="POST" action="{{route('animal.destroy',$animal->id)}}" onsubmit="return confirm('tem certeza?');">
+          @csrf
+          @method('DELETE')
+          <button type="submit">
+            Remover
+          </button>
+        </form>
       </td>
     </tr>
     @endforeach
