@@ -52,7 +52,7 @@ class VacinacaoController extends Controller
       $animais = Vacinacao::where('animal_id', $id);
       return $this->success($animais);
     } catch (\Throwable $th) {
-      return $this->error("Facina não encontrada!!!", 401, $th->getMessage());
+      return $this->error("Vacina não encontrada!!!", 401, $th->getMessage());
     }
   }
 

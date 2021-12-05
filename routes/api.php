@@ -27,4 +27,5 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::resource("adotante", AdotanteController::class);
   Route::resource("animal", AnimalController::class);
   Route::resource("vacina", VacinacaoController::class);
+  Route::delete("/castracao/{animal}", [AnimalController::class, 'deleteCastracao']);
 });

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 
 class AnimalController extends Controller
 {
@@ -101,6 +102,19 @@ class AnimalController extends Controller
       return response()->json($animal);
     } catch (\Throwable $th) {
       return $this->error("Erro ao apagar o Animal!!!", 401, $th->getMessage());
+    }
+  }
+
+  public function deleteCastracao($id)
+  {
+    try {
+      echo $id;
+      $animal = Animal::findOrFail($id);
+      $animal->castracao = null;
+      $animal->save();
+      return response()->json($animal);
+    } catch (\Throwable $th) {
+      return $this->error("Animal não encontrado!!!", 401, $th->getMessage());
     }
   }
 }
