@@ -36,7 +36,7 @@ class VacinacaoController extends Controller
       $animal->nome = $request->get('nome');
       $animal->data = $request->get('data');
       $animal->save();
-      return response()->json($animal);
+      return $this->success($animal);
     }
   }
 
@@ -77,7 +77,7 @@ class VacinacaoController extends Controller
         $animal->nome = $request->get('nome');
         $animal->data = $request->get('data');
         $animal->save();
-        return response()->json($animal);
+        return $this->success($animal);
       }
     } catch (\Throwable $th) {
       return $this->error("Erro ao alterar a Vacina!!!", 401, $th->getMessage());
@@ -95,7 +95,7 @@ class VacinacaoController extends Controller
     try {
       $vacina = Vacinacao::findOrFail($id);
       $vacina->delete();
-      return response()->json($vacina);
+      return $this->success($vacina);
     } catch (\Throwable $th) {
       return $this->error("Erro ao apagar a Vacinacao!!!", 401, $th->getMessage());
     }

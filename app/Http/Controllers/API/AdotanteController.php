@@ -51,7 +51,7 @@ class AdotanteController extends Controller
       $adotante->estado = $request->get('estado');
       $adotante->cidade = $request->get('cidade');
       $adotante->save();
-      return response()->json($adotante);
+      return $this->success($adotante);
     }
   }
 
@@ -65,7 +65,7 @@ class AdotanteController extends Controller
   {
     try {
       $adotante = Adotante::findOrFail($id);
-      return response()->json($adotante);
+      return $this->success($adotante);
     } catch (\Throwable $th) {
       return $this->error("Adotante não encontrado!!!", 401, $th->getMessage());
     }
@@ -103,7 +103,7 @@ class AdotanteController extends Controller
         $adotante->estado = $request->get('estado');
         $adotante->cidade = $request->get('cidade');
         $adotante->save();
-        return response()->json($adotante);
+        return $this->success($adotante);
       }
     } catch (\Throwable $th) {
       return $this->error("Erro ao alterar o Adotante!!!", 401, $th->getMessage());
@@ -121,7 +121,7 @@ class AdotanteController extends Controller
     try {
       $adotante = Adotante::findOrFail($id);
       $adotante->delete();
-      return response()->json($adotante);
+      return $this->success($adotante);
     } catch (\Throwable $th) {
       return $this->error("Erro ao apagar o Adotante!!!", 401, $th->getMessage());
     }

@@ -41,7 +41,7 @@ class AnimalController extends Controller
       $animal->nascimento = $request->get('nascimento');
       $animal->imagem = $request->get('imagem');
       $animal->save();
-      return response()->json($animal);
+      return $this->success($animal);
     }
   }
 
@@ -55,7 +55,7 @@ class AnimalController extends Controller
   {
     try {
       $animal = Animal::where('id', $id)->with('vacinacao')->get();
-      return response()->json($animal[0]);
+      return $this->success($animal[0]);
     } catch (\Throwable $th) {
       return $this->error("Animal não encontrado!!!", 401, $th->getMessage());
     }
@@ -84,7 +84,7 @@ class AnimalController extends Controller
       if ($request->get('castracao'))
         $animal->castracao = $request->get('castracao');
       $animal->save();
-      return response()->json($animal);
+      return $this->success($animal);
     }
   }
 
@@ -99,7 +99,7 @@ class AnimalController extends Controller
     try {
       $animal = Animal::findOrFail($id);
       $animal->delete();
-      return response()->json($animal);
+      return $this->success($animal);
     } catch (\Throwable $th) {
       return $this->error("Erro ao apagar o Animal!!!", 401, $th->getMessage());
     }
@@ -112,7 +112,7 @@ class AnimalController extends Controller
       $animal = Animal::findOrFail($id);
       $animal->castracao = null;
       $animal->save();
-      return response()->json($animal);
+      return $this->success($animal);
     } catch (\Throwable $th) {
       return $this->error("Animal não encontrado!!!", 401, $th->getMessage());
     }
