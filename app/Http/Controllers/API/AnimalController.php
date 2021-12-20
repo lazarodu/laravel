@@ -108,7 +108,6 @@ class AnimalController extends Controller
   public function deleteCastracao($id)
   {
     try {
-      echo $id;
       $animal = Animal::findOrFail($id);
       $animal->castracao = null;
       $animal->save();
