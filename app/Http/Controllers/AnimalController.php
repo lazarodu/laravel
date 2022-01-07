@@ -54,13 +54,9 @@ class AnimalController extends Controller
       $animal->nome = $request->get('nome');
       $animal->nascimento = $request->get('nascimento');
       $path = $request->file('imagem')->store('', 's3');
-      // $files = Storage::disk('s3')->allFiles();
-      // Storage::disk('s3')->setVisibility($files[count($files) - 1], 'public');
-      // $url = Storage::disk('s3')->url($files[count($files) - 1]);
       Storage::disk('s3')->setVisibility($path, 'public');
-      $url = Storage::disk('s3')->url($path);
+      $url = Storage::url($path);
       $animal->imagem = $url;
-      // $animal->imagem = $request->get('imagem');
       $animal->save();
       return redirect('animal');
     }
@@ -107,7 +103,7 @@ class AnimalController extends Controller
       $animal->nascimento = $request->get('nascimento');
       $path = $request->file('imagem')->store('', 's3');
       Storage::disk('s3')->setVisibility($path, 'public');
-      $url = Storage::disk('s3')->url($path);
+      $url = Storage::url($path);
       $animal->imagem = $url;
       $animal->save();
       return redirect('animal');

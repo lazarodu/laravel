@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TryCatch;
 
 class AnimalController extends Controller
@@ -39,7 +40,11 @@ class AnimalController extends Controller
       $animal = new Animal();
       $animal->nome = $request->get('nome');
       $animal->nascimento = $request->get('nascimento');
-      $animal->imagem = $request->get('imagem');
+      // $animal->imagem = $request->get('imagem');
+      $path = $request->file('imagem')->store('', 's3');
+      Storage::disk('s3')->setVisibility($path, 'public');
+      $url = Storage::url($path);
+      $animal->imagem = $url;
       $animal->save();
       return $this->success($animal);
     }
