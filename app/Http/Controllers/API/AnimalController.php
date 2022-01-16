@@ -31,15 +31,38 @@ class AnimalController extends Controller
    */
   public function store(Request $request)
   {
+    print_r($_FILES);
     $validated = $request->validate([
       'nome' => 'required|max:255',
       'nascimento' => 'required|date',
-      'imagem' => 'required'
+      'imagem' => 'required|image'
     ]);
     if ($validated) {
       $animal = new Animal();
       $animal->nome = $request->get('nome');
       $animal->nascimento = $request->get('nascimento');
+      // $animal->imagem = $request->get('imagem');
+      $path = $request->file('imagem')->store('', 's3');
+      Storage::disk('s3')->setVisibility($path, 'public');
+      $url = Storage::url($path);
+      $animal->imagem = $url;
+      $animal->save();
+      return $this->success($animal);
+    }
+  }
+
+  public function upload(Request $request)
+  {
+    print_r($_FILES);
+    print_r($_POST);
+    // move_uploaded_file($_FILES["imagem"]["tmp_name"], "./image.jpg");
+    $validated = $request->validate([
+      'imagem' => 'required|mimes:jpeg,png,jpg,gif,svg'
+    ]);
+    if ($validated) {
+      $animal = new Animal();
+      // $animal->nome = $request->get('nome');
+      // $animal->nascimento = $request->get('nascimento');
       // $animal->imagem = $request->get('imagem');
       $path = $request->file('imagem')->store('', 's3');
       Storage::disk('s3')->setVisibility($path, 'public');
